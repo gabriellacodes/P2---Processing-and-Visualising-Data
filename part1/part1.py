@@ -3,69 +3,52 @@ from datetime import datetime
 
 DEGREE_SYBMOL = u"\N{DEGREE SIGN}C"
 
+with open("data/forecast_5days_a.json","r") as read_file:
+        data = json.load(read_file)
 
 def format_temperature(temp):
-    """Takes a temperature and returns it in string format with the degrees and celcius symbols.
-    
-    Args:
-        temp: A string representing a temperature.
-    Returns:
-        A string contain the temperature and 'degrees celcius.'
-    """
     return f"{temp}{DEGREE_SYBMOL}"
 
 def convert_date(iso_string):
-    """Converts and ISO formatted date into a human readable format.
-    
-    Args:
-        iso_string: An ISO date string..
-    Returns:
-        A date formatted like: Weekday Date Month Year
-    """
     d = datetime.strptime(iso_string, "%Y-%m-%dT%H:%M:%S%z")
     return d.strftime('%A %d %B %Y')
 
 
 def convert_f_to_c(temp_in_farenheit):
-    """Converts an temperature from farenheit to celcius
-
-    Args:
-        temp_in_farenheit: integer representing a temperature.
-    Returns:
-        An integer representing a temperature in degrees celcius.
-    """
     return round((temp_in_farenheit - 32)*(5/9),1)
 
 def calculate_mean(total, num_items):
-    """Calculates the mean.
-    
-    Args:
-        total: integer representing the sum of the numbers.
-        num_items: integer representing the number of items counted.
-    Returns:
-        An integer representing the mean of the numbers.
-    """
-    return (total / num_items)
+    return round((total / num_items),1)
 
 def process_weather(forecast_file):
-    """Converts raw weather data into meaningful text.
-
-    Args:
-        forecast_file: A string representing the file path to a file
-            containing raw weather data.
-    Returns:
-        A string containing the processed and formatted weather data.
-    """
-    with open("data/forecast_5days_a.json","r") as read_file:
-        data = json.load(read_file)
+    # How many days in dataset
+    num_days_in_data = len(data["DailyForecasts"])
     # The overall min temperature, and the date this will occur.
+    min_list = []
     for forecast in data["DailyForecasts"]:
-        min_list = [convert_f_to_c(forecast["Temperature"]["Minimum"]["Value"]),convert_date(forecast["Date"])]
-        print(min_list)
-    # The overall max temperature, and the date this will occur. 
-    # The mean minimum temperature. 
-    # The mean maximum temperature. 
+        min_list.append([convert_f_to_c(forecast["Temperature"]["Minimum"]["Value"]),convert_date(forecast["Date"])])
+    min_list.sort()
+    # The overall max temperature, and the date this will occur.
+    max_list = []
+    for forecast in data["DailyForecasts"]:
+        max_list.append([convert_f_to_c(forecast["Temperature"]["Maximum"]["Value"]),convert_date(forecast["Date"])])
+    max_list.sort()
+    # The mean minimum temperature.
+    total_min = 0
+    num_items_min = 0
+    for forecast in data["DailyForecasts"]:
+        total_min = total_min + (convert_f_to_c(forecast["Temperature"]["Minimum"]["Value"]))
+        num_items_min = num_items_min + 1
+    ave_min = round(calculate_mean(total_min,num_items_min),1)
+    # The mean maximum temperature.
+    total_max = 0
+    num_items_max = 0
+    for forecast in data["DailyForecasts"]:
+        total_max = total_max + (convert_f_to_c(forecast["Temperature"]["Maximum"]["Value"]))
+        num_items_max = num_items_max + 1
+    ave_max = round(calculate_mean(total_max,num_items_max),1)
 
+    return f"{num_days_in_data} Day Overview\n    The lowest temperature will be {min_list[0][0]}°C, and will occur on {min_list[0][1]}.\n    The highest temperature will be {max_list[-1][0]}°C, and will occur on {max_list[-1][1]}.\n    The average low this week is {ave_min}°C.\n    The average high this week is {ave_max}°C."
 
 
 if __name__ == "__main__":
