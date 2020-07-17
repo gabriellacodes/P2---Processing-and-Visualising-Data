@@ -10,7 +10,6 @@ def convert_date(iso_string):
     d = datetime.strptime(iso_string, "%Y-%m-%dT%H:%M:%S%z")
     return d.strftime('%A %d %B %Y')
 
-
 def convert_f_to_c(temp_in_farenheit):
     return round((temp_in_farenheit - 32)*(5/9),1)
 
