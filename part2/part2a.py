@@ -26,13 +26,15 @@ fig.add_trace(px.Scatter(
                 x=x_values,
                 y=y_values_max,
                 name = 'Maximum Temperature',
-                mode = "lines+markers"
+                mode = "lines+markers",
+                line = dict(color="#FF9326")
                 ))
 fig.add_trace(px.Scatter(
                 x=x_values,
                 y=y_values_min,
                 name = 'Minimum Temperature',
-                mode = "lines+markers"
+                mode = "lines+markers",
+                line = dict(color="#2693FF")
                 ))
 fig.update_layout(
     title="Historical Temperature Overview (Part 2a)",
