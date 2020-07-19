@@ -1,0 +1,1 @@
+The minimum temperature in this dataset is 18.9°C, which occurs at 03:55PM. The maximum temperature in this dataset is 21.1°C, which occurs at 01:55PM, 11:55AM. 1.0mm of precipitation fell over a period of 2 hours during this dataset. In this dataset there were 6 hours of daylight with a maximum UV index of 3 occuring at 01:55PM, 11:55AM, 12:55PM.
