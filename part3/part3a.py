@@ -3,7 +3,7 @@ import plotly.graph_objects as px
 from datetime import datetime
 from collections import Counter
 
-with open("data/historical_6hours.json","r") as read_file:
+with open("data/historical_24hours_b.json","r") as read_file:
         data = json.load(read_file)
 
 ## Keeping here for future :) ##
