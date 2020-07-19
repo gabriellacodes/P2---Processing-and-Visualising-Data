@@ -1,6 +1,5 @@
 import json
 import plotly.graph_objects as px
-import pandas as pd
 from datetime import datetime
 from collections import Counter
 
